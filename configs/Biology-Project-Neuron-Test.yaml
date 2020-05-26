@@ -1,0 +1,55 @@
+# All other configurations are set by default. If you want to add new config options,
+# please modify ../connectomics/config/config.py
+SYSTEM:112  NUM_GPUS: 1112  NUM_CPUS: 1
+MODE112:
+  ARCHITECTURE: 'unet_residual_3d'
+  INPUT_SIZE: [112, 256, 256]
+  # INPUT_SIZE: [8, 256, 256]
+  OUTPUT_SIZE: [112, 256, 256]04
+  # OUTPUT_SIZE: [8, 256, 256]
+  IN_PLANES: 1
+  OUT_PLANES: 3
+  FILTERS : [32, 32, 64, 64, 128]
+  LOSS_OPTION: [['WeightedBCE']]
+  TARGET_OPT: ['2']
+  WEIGHT_OPT: [['1']]
+  PRE_MODEL: '/n/pfister_lab2/Lab/donglai/cerebellum/outputs/unetv3_p0_aff/log2020-02-23_18-51-32/volume_19999.pth'
+  PRE_MODEL_ITER: 19999
+DATASET:
+  IMAGE_NAME: 'im0.h5'
+  LABEL_NAME: 'seg0_gt.h5'
+  INPUT_PATH: '/n/pfister_lab2/Lab/vcg_connectomics/cerebellum_P0/train/'
+  OUTPUT_PATH: 'outputs/cerebellum_P0/test/'
+  PAD_SIZE: [8, 64, 64]
+  # PAD_SIZE: [4, 128, 128]
+AUGMENTOR:
+  ROTATE: True
+  RESCALE: True
+  FLIP: True
+  ELASTIC: True
+  GRAYSCALE: True
+  MISSINGPARTS: True
+  MISSINGSECTION: True
+  MISALIGNMENT: True
+SOLVER:
+  LR_SCHEDULER_NAME: "MultiStepLR"
+  BASE_LR: 0.001
+  ITERATION_STEP: 1
+  ITERATION_SAVE: 1000
+  ITERATION_TOTAL: 40000
+  SAMPLES_PER_BATCH: 8
+INFERENCE:
+  INPUT_SIZE: [112, 256, 256]
+  OUTPUT_SIZE: [112, 256, 256]
+  IMAGE_NAME: 'im0.h5'
+  OUTPUT_PATH: 'outputs/cerebellum_P0/test'
+  OUTPUT_NAME: 'seg0_2.h5'
+  PAD_SIZE: [8, 64, 64]
+  STRIDE: [104, 192, 192]
+  AUG_MODE: 'mean'
+  AUG_NUM: 4
+  DO_EVAL: True
+  DO_3D: True
+  TEST_NUM: 1 
+  TEST_ID: 0 
+  SAMPLES_PER_BATCH: 32
