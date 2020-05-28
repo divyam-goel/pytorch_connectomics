@@ -7,7 +7,7 @@ from .zoo import *
 from .norm import patch_replication_callback
 from .utils import Monitor, Criterion
 
-def build_model(cfg, device, checkpoint=None):
+def build_model(cfg, device):
     MODEL_MAP = {'unet_residual_3d': unet_residual_3d,
                  'fpn': fpn,
                  'super':SuperResolution,
@@ -26,11 +26,11 @@ def build_model(cfg, device, checkpoint=None):
     patch_replication_callback(model)
     model = model.to(device)
 
-    if checkpoint is not None:
-        print('Load pretrained model: ', checkpoint)
+    if cfg.MODEL.PRE_MODEL != '':
+        print('Load pretrained model: ', cfg.MODEL.PRE_MODEL)
         if cfg.MODEL.EXACT: 
             # exact matching: the weights shape in pretrain model and current model are identical
-            weight = torch.load(checkpoint)
+            weight = torch.load(cfg.MODEL.PRE_MODEL)
             # change channels if needed
             if cfg.MODEL.PRE_MODEL_LAYER[0] != '':
                 if cfg.MODEL.PRE_MODEL_LAYER_SELECT[0]==-1: # replicate channels
