@@ -126,6 +126,12 @@ dmypy.json
 .github/
 *~
 
+# vscode
+.vscode/
+
 data/
 others/
 outputs/
+jobs/
+slurm/
+
